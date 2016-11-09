@@ -90,16 +90,26 @@ public class SetBlockingQueueUnitTest {
 		Assert.assertEquals(capacityEleven, 5);
 	}
 
-	public void testFullCapacity(){
+	public void testFullCapacity() throws InterruptedException {
 		//Arrange
 		final BlockingQueue<Integer> queue = new SetBlockingQueue<>(1);
 
 		//Act
 		final boolean acceptedOffer = queue.offer(new Integer(1));
-		final boolean rejectedOffer = queue.offer(new Integer(2));
+		final boolean rejectedOffer1 = queue.offer(new Integer(2));
+		final boolean rejectedOffer2 = queue.offer(new Integer(2), 1, TimeUnit.SECONDS);
+		boolean rejectedException = false;
+		try{
+			queue.add(new Integer(2));
+		}
+		catch (IllegalStateException ex){
+			rejectedException = true;
+		}
 
 		//Test
 		Assert.assertTrue(acceptedOffer);
-		Assert.assertFalse(rejectedOffer);
+		Assert.assertFalse(rejectedOffer1);
+		Assert.assertFalse(rejectedOffer2);
+		Assert.assertTrue(rejectedException);
 	}
 }
