@@ -15,7 +15,7 @@ public class SetBlockingQueueUnitTest {
 
 	public void testOfferThenPoll(){
 		//Arrange
-		final Queue<String> queue = new SetBlockingQueue<>();
+		final Queue<String> queue = new ConcurrentSetBlockingQueue<>();
 		final List<String> dataSet = Arrays.asList("1","3","6","10","4");
 
 		//Act
@@ -32,7 +32,7 @@ public class SetBlockingQueueUnitTest {
 
 	public void testOfferDuplicates(){
 		//Arrange
-		final Queue<Integer> queue = new SetBlockingQueue<>();
+		final Queue<Integer> queue = new ConcurrentSetBlockingQueue<>();
 
 		//Act
 		final boolean firstOffer = queue.offer(new Integer(1));
@@ -45,7 +45,7 @@ public class SetBlockingQueueUnitTest {
 
 	public void testRemainingCapacity() throws InterruptedException {
 		//Arrange
-		final BlockingQueue<Integer> queue = new SetBlockingQueue<>(5);
+		final BlockingQueue<Integer> queue = new ConcurrentSetBlockingQueue<>(5);
 
 		//Act
 		final int initialCapacity = queue.remainingCapacity();
@@ -92,7 +92,7 @@ public class SetBlockingQueueUnitTest {
 
 	public void testFullCapacity() throws InterruptedException {
 		//Arrange
-		final BlockingQueue<Integer> queue = new SetBlockingQueue<>(1);
+		final BlockingQueue<Integer> queue = new ConcurrentSetBlockingQueue<>(1);
 
 		//Act
 		final boolean acceptedOffer = queue.offer(new Integer(1));
