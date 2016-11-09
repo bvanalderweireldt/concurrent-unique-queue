@@ -6,6 +6,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * A blocking queue backed by a set so duplicates inside the queue are not allowed.
+ * @param <E>
+ */
 public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> implements BlockingQueue<E> {
 
 
@@ -19,7 +23,7 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 
 	@Override
 	public int remainingCapacity() {
-		return capacity - count.get();
+		return ( capacity - count.get() );
 	}
 
 	@Override
@@ -32,73 +36,89 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 		takeLock.lockInterruptibly();
 		try {
 			while (count.get() == 0) {
-				if (nanos <= 0)
+				if (nanos <= 0) {
 					return null;
+				}
 				nanos = notEmpty.awaitNanos(nanos);
 			}
 			x = set.iterator().next();
 			set.remove(x);
 			c = count.getAndDecrement();
-			if (c > 1)
+			if (c > 1) {
 				notEmpty.signal();
+			}
 		} finally {
 			takeLock.unlock();
 		}
-		if (c == capacity)
+		if (c == capacity) {
 			signalNotFull();
+		}
 		return x;
 	}
 
 	@Override
 	public void put(final E e) throws InterruptedException {
-		if (e == null) throw new NullPointerException();
+		if (e == null) {
+			throw new NullPointerException();
+		}
 
 		int c = -1;
 		final ReentrantLock putLock = this.putLock;
 		final AtomicInteger count = this.count;
 		putLock.lockInterruptibly();
 		try {
-			if (set.contains(e)) return;
+			if (set.contains(e)) {
+				return;
+			}
 
 			while (count.get() == capacity) {
 				notFull.await();
 			}
 			set.add(e);
 			c = count.getAndIncrement();
-			if (c + 1 < capacity)
+			if (c + 1 < capacity) {
 				notFull.signal();
+			}
 		} finally {
 			putLock.unlock();
 		}
-		if (c == 0)
+		if (c == 0) {
 			signalNotEmpty();
+		}
 	}
 
 	@Override
 	public boolean offer(final E e, final long timeout, final TimeUnit unit) throws InterruptedException {
-		if (e == null) throw new NullPointerException();
+		if (e == null) {
+			throw new NullPointerException();
+		}
 		long nanos = unit.toNanos(timeout);
 		int c = -1;
 		final ReentrantLock putLock = this.putLock;
 		final AtomicInteger count = this.count;
 		putLock.lockInterruptibly();
 		try {
-			if (set.contains(e)) return false;
+			if (set.contains(e)) {
+				return false;
+			}
 
 			while (count.get() == capacity) {
-				if (nanos <= 0)
+				if (nanos <= 0) {
 					return false;
+				}
 				nanos = notFull.awaitNanos(nanos);
 			}
 			set.add(e);
 			c = count.getAndIncrement();
-			if (c + 1 < capacity)
+			if (c + 1 < capacity) {
 				notFull.signal();
+			}
 		} finally {
 			putLock.unlock();
 		}
-		if (c == 0)
+		if (c == 0) {
 			signalNotEmpty();
+		}
 		return true;
 	}
 
@@ -116,13 +136,15 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 			x = set.iterator().next();
 			set.remove(x);
 			c = count.getAndDecrement();
-			if (c > 1)
+			if (c > 1) {
 				notEmpty.signal();
+			}
 		} finally {
 			takeLock.unlock();
 		}
-		if (c == capacity)
+		if (c == capacity) {
 			signalNotFull();
+		}
 		return x;
 	}
 
@@ -133,12 +155,15 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 
 	@Override
 	public int drainTo(final Collection<? super E> c, final int maxElements) {
-		if (c == null)
+		if (c == null) {
 			throw new NullPointerException();
-		if (c == this)
+		}
+		if (c == this) {
 			throw new IllegalArgumentException();
-		if (maxElements <= 0)
+		}
+		if (maxElements <= 0) {
 			return 0;
+		}
 		boolean signalNotFull = false;
 		final ReentrantLock takeLock = this.takeLock;
 		takeLock.lock();
@@ -160,8 +185,9 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 			}
 		} finally {
 			takeLock.unlock();
-			if (signalNotFull)
+			if (signalNotFull) {
 				signalNotFull();
+			}
 		}
 	}
 }
