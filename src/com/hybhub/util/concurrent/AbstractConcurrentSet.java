@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Abstract concurrent class holding a set a method to handle take and put lock.
+ * Abstract concurrent class holding a set and methods to handle concurrent locks.
  * Inspired by {@link java.util.concurrent.LinkedBlockingQueue}
  * @param <E>
  */

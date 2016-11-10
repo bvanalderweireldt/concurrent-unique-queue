@@ -15,7 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class SetBlockingQueueMultiThreadTest {
+public class ConcurrentSetBlockingQueueMultiThreadTest {
 
 	public void testTwoThreadsOfferTake() throws InterruptedException {
 		//Arrange

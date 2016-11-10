@@ -1,9 +1,6 @@
 package com.hybhub.util.concurrent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -11,37 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class SetBlockingQueueUnitTest {
-
-	public void testOfferThenPoll(){
-		//Arrange
-		final Queue<String> queue = new ConcurrentSetBlockingQueue<>();
-		final List<String> dataSet = Arrays.asList("1","3","6","10","4");
-
-		//Act
-		for(String s : dataSet){
-			queue.offer(s);
-		}
-
-		//Test
-		for(String s : dataSet){
-			Assert.assertEquals(queue.poll(), s, "Polled String is incorrect");
-		}
-		Assert.assertTrue(queue.isEmpty());
-	}
-
-	public void testOfferDuplicates(){
-		//Arrange
-		final Queue<Integer> queue = new ConcurrentSetBlockingQueue<>();
-
-		//Act
-		final boolean firstOffer = queue.offer(new Integer(1));
-		final boolean secondOffer = queue.offer(new Integer(1));
-
-		//Test
-		Assert.assertTrue(firstOffer);
-		Assert.assertFalse(secondOffer);
-	}
+public class ConcurrentSetBlockingQueueUnitTest {
 
 	public void testRemainingCapacity() throws InterruptedException {
 		//Arrange
@@ -90,26 +57,4 @@ public class SetBlockingQueueUnitTest {
 		Assert.assertEquals(capacityEleven, 5);
 	}
 
-	public void testFullCapacity() throws InterruptedException {
-		//Arrange
-		final BlockingQueue<Integer> queue = new ConcurrentSetBlockingQueue<>(1);
-
-		//Act
-		final boolean acceptedOffer = queue.offer(new Integer(1));
-		final boolean rejectedOffer1 = queue.offer(new Integer(2));
-		final boolean rejectedOffer2 = queue.offer(new Integer(2), 1, TimeUnit.SECONDS);
-		boolean rejectedException = false;
-		try{
-			queue.add(new Integer(2));
-		}
-		catch (IllegalStateException ex){
-			rejectedException = true;
-		}
-
-		//Test
-		Assert.assertTrue(acceptedOffer);
-		Assert.assertFalse(rejectedOffer1);
-		Assert.assertFalse(rejectedOffer2);
-		Assert.assertTrue(rejectedException);
-	}
 }
