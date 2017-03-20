@@ -6,6 +6,6 @@ If you need to have a Queue with unique elements (needs to have a poper hash and
 <dependency>
   <groupId>com.hybhub</groupId>
   <artifactId>concurrent-util</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
 </dependency>
 ```
