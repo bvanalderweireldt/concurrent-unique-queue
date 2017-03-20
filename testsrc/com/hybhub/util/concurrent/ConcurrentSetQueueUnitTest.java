@@ -2,6 +2,7 @@ package com.hybhub.util.concurrent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 import org.testng.Assert;
@@ -78,4 +79,55 @@ public class ConcurrentSetQueueUnitTest {
 		Assert.assertEquals(1, shouldBeOne);
 	}
 
+	public void testRemove(){
+		//Arrange
+		final Queue<Integer> queue = new ConcurrentSetBlockingQueue<>();
+
+		//Act
+		Exception expectedException = null;
+		try {
+			queue.remove();
+		}
+		catch (NoSuchElementException noSuchElementException){
+			expectedException = noSuchElementException;
+		}
+		final boolean addedFirst = queue.offer(new Integer(3));
+		final boolean addedSecond = queue.offer(new Integer(1));
+		final boolean addedThird = queue.offer(new Integer(2));
+		final Integer integerRemoved = queue.remove();
+		final int finalQueueSize = queue.size();
+
+		//Test
+		Assert.assertNotNull(expectedException);
+		Assert.assertTrue(addedFirst);
+		Assert.assertTrue(addedSecond);
+		Assert.assertTrue(addedThird);
+		Assert.assertEquals(integerRemoved, new Integer(3));
+		Assert.assertEquals(finalQueueSize, 2);
+	}
+
+	public void testElement(){
+		//Arrange
+		final Queue<Integer> queue = new ConcurrentSetBlockingQueue<>();
+
+		//Act
+		Exception expectedException = null;
+		try {
+			queue.element();
+		}
+		catch (NoSuchElementException noSuchElementException){
+			expectedException = noSuchElementException;
+		}
+		final boolean addedFirst = queue.offer(new Integer(4));
+		final boolean addedSecond = queue.offer(new Integer(1));
+		final Integer shouldBeNonNull = queue.element();
+		final int shouldBeTwo = queue.size();
+
+		//Test
+		Assert.assertNotNull(expectedException);
+		Assert.assertTrue(addedFirst);
+		Assert.assertTrue(addedSecond);
+		Assert.assertNotNull(shouldBeNonNull);
+		Assert.assertEquals(2, shouldBeTwo);
+	}
 }

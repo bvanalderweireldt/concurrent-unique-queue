@@ -14,4 +14,7 @@ hs_err_pid*
 # Workspace
 .DS_Store
 .idea/
+target/
 concurrent.iml
+pom.xml.releaseBackup
+release.properties

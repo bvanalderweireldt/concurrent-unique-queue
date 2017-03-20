@@ -37,6 +37,7 @@ public abstract class ConcurrentSetQueue<E> extends ConcurrentSetCollection<E> i
 		try {
 			if (count.get() > 0) {
 				x = set.iterator().next();
+				set.spliterator();
 				set.remove(x);
 				c = count.getAndDecrement();
 				if (c > 1) {
