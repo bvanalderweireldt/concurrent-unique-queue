@@ -9,3 +9,10 @@ If you need to have a Queue with unique elements (needs to have a poper hash and
   <version>0.1</version>
 </dependency>
 ```
+
+# Usage
+
+```java
+#ConcurrentSetBlockingQueue implements BlockingQueue
+BlockingQueue<...> queue = new ConcurrentSetBlockingQueue<>();
+```

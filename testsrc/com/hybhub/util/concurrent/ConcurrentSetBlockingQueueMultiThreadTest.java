@@ -25,7 +25,7 @@ public class ConcurrentSetBlockingQueueMultiThreadTest {
 		//Act
 		exec.submit(() -> {
 			wait(10);
-			for ( int i : IntStream.range(0,10).toArray() ) {
+			for ( int ignored : IntStream.range(0,10).toArray()) {
 				queue.offer(UUID.randomUUID());
 				wait(10);
 			}
@@ -33,7 +33,7 @@ public class ConcurrentSetBlockingQueueMultiThreadTest {
 		});
 		exec.submit(() -> {
 			wait(100);
-			for ( int i : IntStream.range(0,10).toArray() ) {
+			for ( int ignored : IntStream.range(0,10).toArray() ) {
 				queue.take();
 				wait(10);
 			}
@@ -50,9 +50,9 @@ public class ConcurrentSetBlockingQueueMultiThreadTest {
 		//Arrange
 		BlockingQueue<UUID> queue = new ConcurrentSetBlockingQueue<>();
 		List<Callable<Object>> consumers = new ArrayList<>();
-		for ( int i : IntStream.range(0,10).toArray() ){
+		for ( int ignored : IntStream.range(0,10).toArray() ){
 			consumers.add(() -> {
-				for ( int ignored : IntStream.range(0,15).toArray() ) {
+				for ( int ignored2 : IntStream.range(0,15).toArray() ) {
 					queue.offer(UUID.randomUUID());
 				}
 				return Boolean.TRUE;
@@ -74,7 +74,7 @@ public class ConcurrentSetBlockingQueueMultiThreadTest {
 		//Arrange
 		BlockingQueue<UUID> queue = new ConcurrentSetBlockingQueue<>(1);
 		List<Callable<Object>> consumers = new ArrayList<>();
-		for ( int i : IntStream.range(0,20).toArray() ){
+		for ( int ignored : IntStream.range(0,20).toArray() ){
 			consumers.add(() -> queue.offer(UUID.randomUUID(), 10, TimeUnit.SECONDS) && queue.offer(UUID.randomUUID(), 10, TimeUnit.SECONDS));
 		}
 		consumers.add(() -> { IntStream.range(0,40).parallel().forEach((i) -> {
@@ -102,14 +102,14 @@ public class ConcurrentSetBlockingQueueMultiThreadTest {
 		//Arrange
 		BlockingQueue<UUID> queue = new ConcurrentSetBlockingQueue<>(30);
 		List<Callable<Object>> consumers = new ArrayList<>();
-		for (int i : IntStream.range(0, 20).toArray()) {
+		for (int ignored : IntStream.range(0, 20).toArray()) {
 			consumers.add(() -> {
 				queue.put(UUID.randomUUID());
 				queue.put(UUID.randomUUID());
 				return Boolean.TRUE;
 			});
-			consumers.add(() -> queue.poll());
-			consumers.add(() -> queue.poll());
+			consumers.add(queue::poll);
+			consumers.add(queue::poll);
 		}
 		ExecutorService exec = Executors.newFixedThreadPool(50);
 
