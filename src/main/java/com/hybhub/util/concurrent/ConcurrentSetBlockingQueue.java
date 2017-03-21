@@ -28,8 +28,8 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 
 	@Override
 	public E poll(final long timeout, final TimeUnit unit) throws InterruptedException {
-		E x = null;
-		int c = -1;
+		E x;
+		int c;
 		long nanos = unit.toNanos(timeout);
 		final AtomicInteger count = this.count;
 		final ReentrantLock takeLock = this.takeLock;
@@ -62,7 +62,7 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 			throw new NullPointerException();
 		}
 
-		int c = -1;
+		int c;
 		final ReentrantLock putLock = this.putLock;
 		final AtomicInteger count = this.count;
 		putLock.lockInterruptibly();
@@ -93,7 +93,7 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 			throw new NullPointerException();
 		}
 		long nanos = unit.toNanos(timeout);
-		int c = -1;
+		int c;
 		final ReentrantLock putLock = this.putLock;
 		final AtomicInteger count = this.count;
 		putLock.lockInterruptibly();
@@ -125,7 +125,7 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 	@Override
 	public E take() throws InterruptedException {
 		E x;
-		int c = -1;
+		int c;
 		final AtomicInteger count = this.count;
 		final ReentrantLock takeLock = this.takeLock;
 		takeLock.lockInterruptibly();

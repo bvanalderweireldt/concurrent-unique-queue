@@ -1,6 +1,8 @@
 # concurrent-unique-queue
-A Java concurrent unique queue backed by a Set.
-If you need to have a Queue with unique elements (needs to have a poper hash and equals implementations).
+A Java concurrent unique queue backed by a Set (LinkedHashSet), for when you need to have a Queue with unique elements. 
+The ConcurrentSetBlockingQueue will behave the same way if the queue is full or if a duplicate entry already exists in the Queue.
+
+**Your element needs to have a proper hash and equals implementations !**
 
 ```xml
 <dependency>
@@ -14,5 +16,9 @@ If you need to have a Queue with unique elements (needs to have a poper hash and
 
 ```java
 #ConcurrentSetBlockingQueue implements BlockingQueue
-BlockingQueue<...> queue = new ConcurrentSetBlockingQueue<>();
+BlockingQueue<Integer> queue = new ConcurrentSetBlockingQueue<>();
+
+queue.offer(1); # True
+queue.offer(2); # True
+queue.offer(2); # False
 ```

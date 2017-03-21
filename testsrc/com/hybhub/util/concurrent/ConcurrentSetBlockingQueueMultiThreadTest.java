@@ -126,7 +126,7 @@ public class ConcurrentSetBlockingQueueMultiThreadTest {
 				return true;
 			}
 		}).count();
-		Assert.assertTrue(failedPolls == 0 ? queue.isEmpty() : !queue.isEmpty());
+		Assert.assertTrue((failedPolls == 0) == queue.isEmpty());
 		Assert.assertEquals(failedPolls, queue.size());
 	}
 

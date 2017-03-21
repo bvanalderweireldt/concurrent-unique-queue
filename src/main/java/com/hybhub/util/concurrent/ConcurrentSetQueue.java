@@ -11,11 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class ConcurrentSetQueue<E> extends ConcurrentSetCollection<E> implements Queue<E> {
 
-	public ConcurrentSetQueue() {
-		super(Integer.MAX_VALUE);
-	}
-
-	public ConcurrentSetQueue(final int capacity) {
+	ConcurrentSetQueue(final int capacity) {
 		super(capacity);
 	}
 

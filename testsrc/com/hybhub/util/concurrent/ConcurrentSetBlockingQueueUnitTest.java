@@ -16,19 +16,19 @@ public class ConcurrentSetBlockingQueueUnitTest {
 
 		//Act
 		final int initialCapacity = queue.remainingCapacity();
-		queue.offer(new Integer(1));
+		queue.offer(1);
 		final int capacityOne = queue.remainingCapacity();
-		queue.offer(new Integer(1));
+		queue.offer(1);
 		final int capacityOneRepeated = queue.remainingCapacity();
-		queue.offer(new Integer(2));
+		queue.offer(2);
 		final int capacityTwo = queue.remainingCapacity();
 		queue.peek();
 		final int capacityThree = queue.remainingCapacity();
-		queue.put(new Integer(3));
+		queue.put(3);
 		final int capacityFour = queue.remainingCapacity();
-		queue.remove(new Integer(3));
+		queue.remove(3);
 		final int capacityFive = queue.remainingCapacity();
-		queue.add(new Integer(4));
+		queue.add(4);
 		final int capacitySix = queue.remainingCapacity();
 		queue.element();
 		final int capacitySeven = queue.remainingCapacity();
@@ -36,7 +36,7 @@ public class ConcurrentSetBlockingQueueUnitTest {
 		final int capacityEight = queue.remainingCapacity();
 		queue.take();
 		final int capacityNine = queue.remainingCapacity();
-		queue.offer(new Integer(5), 1, TimeUnit.SECONDS);
+		queue.offer(5, 1, TimeUnit.SECONDS);
 		final int capacityTen = queue.remainingCapacity();
 		queue.drainTo(new ArrayList<>());
 		final int capacityEleven = queue.remainingCapacity();

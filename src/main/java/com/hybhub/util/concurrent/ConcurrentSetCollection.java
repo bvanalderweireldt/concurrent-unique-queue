@@ -8,10 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> implements Collection<E> {
 
-	ConcurrentSetCollection() {
-		this(Integer.MAX_VALUE);
-	}
-
 	ConcurrentSetCollection(final int capacity) {
 		super(capacity);
 	}
@@ -39,6 +35,7 @@ public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> impleme
 	}
 
 	public boolean offer(final E e) {
+		System.out.println(e);
 		if (e == null) {
 			throw new NullPointerException();
 		}
@@ -47,9 +44,9 @@ public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> impleme
 			return false;
 		}
 		int c = -1;
-		putLock.lock();
+		fullyLock();
 		try {
-			if (count.get() < capacity && ! this.contains(e)) {
+			if (count.get() < capacity && ! set.contains(e)) {
 				set.add(e);
 				c = count.getAndIncrement();
 				if (c + 1 < capacity) {
@@ -57,7 +54,7 @@ public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> impleme
 				}
 			}
 		} finally {
-			putLock.unlock();
+			fullyUnlock();
 		}
 		if (c == 0) {
 			signalNotEmpty();
@@ -82,8 +79,7 @@ public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> impleme
 		}
 		fullyLock();
 		try {
-			if(set.contains(o)){
-				set.remove(o);
+			if(set.remove(o)){
 				count.decrementAndGet();
 				return true;
 			}
@@ -137,7 +133,7 @@ public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> impleme
 	public <T> T[] toArray(final T[] a) {
 		fullyLock();
 		try {
-			return set.<T>toArray(a);
+			return set.toArray(a);
 		}
 		finally {
 			fullyUnlock();

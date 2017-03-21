@@ -16,12 +16,12 @@ public class ConcurrentSetQueueUnitTest {
 		final Queue<Integer> queue = new ConcurrentSetBlockingQueue<>(1);
 
 		//Act
-		final boolean acceptedOffer = queue.offer(new Integer(1));
-		final boolean rejectedOffer1 = queue.offer(new Integer(2));
-		final boolean rejectedOffer2 = queue.offer(new Integer(2));
+		final boolean acceptedOffer = queue.offer(1);
+		final boolean rejectedOffer1 = queue.offer(2);
+		final boolean rejectedOffer2 = queue.offer(2);
 		boolean rejectedException = false;
 		try{
-			queue.add(new Integer(2));
+			queue.add(2);
 		}
 		catch (IllegalStateException ex){
 			rejectedException = true;
@@ -54,8 +54,8 @@ public class ConcurrentSetQueueUnitTest {
 		final Queue<Integer> queue = new ConcurrentSetBlockingQueue<>();
 
 		//Act
-		final boolean firstOffer = queue.offer(new Integer(1));
-		final boolean secondOffer = queue.offer(new Integer(1));
+		final boolean firstOffer = queue.offer(1);
+		final boolean secondOffer = queue.offer(1);
 
 		//Test
 		Assert.assertTrue(firstOffer);
@@ -68,7 +68,7 @@ public class ConcurrentSetQueueUnitTest {
 
 		//Act
 		final Integer shouldBeNull = queue.peek();
-		final boolean shouldBeTrue = queue.offer(new Integer(1));
+		final boolean shouldBeTrue = queue.offer(1);
 		final Integer shouldBeNonNull = queue.peek();
 		final int shouldBeOne = queue.size();
 
@@ -91,9 +91,9 @@ public class ConcurrentSetQueueUnitTest {
 		catch (NoSuchElementException noSuchElementException){
 			expectedException = noSuchElementException;
 		}
-		final boolean addedFirst = queue.offer(new Integer(3));
-		final boolean addedSecond = queue.offer(new Integer(1));
-		final boolean addedThird = queue.offer(new Integer(2));
+		final boolean addedFirst = queue.offer(3);
+		final boolean addedSecond = queue.offer(1);
+		final boolean addedThird = queue.offer(2);
 		final Integer integerRemoved = queue.remove();
 		final int finalQueueSize = queue.size();
 
@@ -118,8 +118,8 @@ public class ConcurrentSetQueueUnitTest {
 		catch (NoSuchElementException noSuchElementException){
 			expectedException = noSuchElementException;
 		}
-		final boolean addedFirst = queue.offer(new Integer(4));
-		final boolean addedSecond = queue.offer(new Integer(1));
+		final boolean addedFirst = queue.offer(4);
+		final boolean addedSecond = queue.offer(1);
 		final Integer shouldBeNonNull = queue.element();
 		final int shouldBeTwo = queue.size();
 
