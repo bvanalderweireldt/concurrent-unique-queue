@@ -35,7 +35,6 @@ public class ConcurrentSetCollection<E> extends AbstractConcurrentSet<E> impleme
 	}
 
 	public boolean offer(final E e) {
-		System.out.println(e);
 		if (e == null) {
 			throw new NullPointerException();
 		}
