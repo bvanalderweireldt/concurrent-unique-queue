@@ -65,7 +65,7 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 		int c;
 		final ReentrantLock putLock = this.putLock;
 		final AtomicInteger count = this.count;
-		putLock.lockInterruptibly();
+		fullyLock();
 		try {
 			if (set.contains(e)) {
 				return;
@@ -80,7 +80,7 @@ public class ConcurrentSetBlockingQueue<E> extends ConcurrentSetQueue<E> impleme
 				notFull.signal();
 			}
 		} finally {
-			putLock.unlock();
+			fullyUnlock();
 		}
 		if (c == 0) {
 			signalNotEmpty();

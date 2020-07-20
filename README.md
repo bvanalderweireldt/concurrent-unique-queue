@@ -8,7 +8,7 @@ The ConcurrentSetBlockingQueue will behave the same way if the queue is full or 
 <dependency>
   <groupId>com.hybhub</groupId>
   <artifactId>concurrent-util</artifactId>
-  <version>0.1</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 

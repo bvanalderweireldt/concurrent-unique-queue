@@ -35,7 +35,6 @@ public class ConcurrentSetBlockingQueueThreadPoolExecutorTest {
         threadPoolExecutor.execute(new SimpleRunnable(1));
         final int shouldBeTwoStill = threadPoolExecutor.getQueue().size();
 
-        System.out.println("Waiting....");
         threadPoolExecutor.awaitTermination(4, TimeUnit.SECONDS);
         Thread.sleep(2_000);
         final long shouldBeThree = threadPoolExecutor.getCompletedTaskCount();
