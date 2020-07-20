@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Abstract concurrent class holding a set and methods to handle concurrent locks.
- * The {@link java.util.Set} is a {@link LinkedHashSet}, it guaranties unity,
+ * The {@link java.util.Set} is a {@link LinkedHashSet}, it guaranties that there are no duplicates,
  * and is aware of the order of insertion inside the {@link java.util.Set},
  * so we are able to simulate a "first in first out" strategy.
  * Inspired by {@link java.util.concurrent.LinkedBlockingQueue}

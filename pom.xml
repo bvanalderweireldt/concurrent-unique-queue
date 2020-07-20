@@ -10,7 +10,7 @@
 
     <groupId>com.hybhub</groupId>
     <artifactId>concurrent-util</artifactId>
-    <version>0.2</version>
+    <version>0.3.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -27,6 +27,14 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
